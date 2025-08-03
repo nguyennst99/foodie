@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="16dp"
+    style="@style/Widget.Foodie.DiscoverCard">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Restaurant Info Section -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- New Badge -->
+            <TextView
+                android:id="@+id/new_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New"
+                android:textAppearance="@style/TextAppearance.Foodie.NewBadge"
+                android:layout_marginBottom="4dp" />
+
+            <!-- Restaurant Name -->
+            <TextView
+                android:id="@+id/discover_restaurant_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Taco Fiesta"
+                android:textAppearance="@style/TextAppearance.Foodie.RestaurantName"
+                android:textStyle="bold"
+                android:layout_marginBottom="4dp" />
+
+            <!-- Cuisine and Rating -->
+            <TextView
+                android:id="@+id/discover_restaurant_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mexican · 4.6 ★"
+                android:textAppearance="@style/TextAppearance.Foodie.Rating" />
+
+        </LinearLayout>
+
+        <!-- Restaurant Image -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/discover_restaurant_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/restaurant_taco"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Medium" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

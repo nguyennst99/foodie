@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Original colors -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Foodie app colors from Figma design -->
+    <color name="background_primary">#FFFFFF</color>
+    <color name="text_primary">#171212</color>
+    <color name="text_secondary">#876363</color>
+    <color name="text_secondary_favorites">#82696B</color>
+    <color name="background_secondary">#F5F0F0</color>
+    <color name="border_color">#F5F0F0</color>
+    <color name="border_color_favorites">#F5F2F2</color>
+    <color name="fab_red">#E82630</color>
+    <color name="icon_background">#F5F2F2</color>
+    <color name="progress_bar_background">#E5DBDB</color>
+    <color name="progress_bar_fill">#171212</color>
+    <color name="button_gray">#F5F0F0</color>
+
+    <!-- Material Design colors for compatibility -->
+    <color name="colorPrimary">#171212</color>
+    <color name="colorPrimaryVariant">#876363</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#F5F0F0</color>
+    <color name="colorOnSecondary">#171212</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorOnSurface">#171212</color>
+</resources>
