@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:paddingHorizontal="16dp"
+    android:gravity="center_vertical"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/restaurant_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginEnd="16dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/search_bella_trattoria"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Medium" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/restaurant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Restaurant Name"
+            android:textAppearance="@style/TextAppearance.Foodie.RestaurantName"
+            android:layout_marginBottom="2dp"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="2dp">
+
+            <TextView
+                android:id="@+id/restaurant_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.5"
+                android:textAppearance="@style/TextAppearance.Foodie.SearchReviews"
+                android:layout_marginEnd="4dp" />
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/ic_star_filled"
+                android:layout_marginEnd="8dp"
+                app:tint="@color/star_yellow" />
+
+            <TextView
+                android:id="@+id/restaurant_reviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(1200+ reviews)"
+                android:textAppearance="@style/TextAppearance.Foodie.SearchReviews" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/restaurant_cuisine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Italian"
+            android:textAppearance="@style/TextAppearance.Foodie.SearchReviews" />
+
+    </LinearLayout>
+
+    <!-- Add to Favorites Button -->
+    <ImageView
+        android:id="@+id/add_to_favorites_button"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_favorites_inactive"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="4dp"
+        android:contentDescription="Add to favorites"
+        android:layout_marginStart="8dp"
+        app:tint="@color/text_secondary" />
+
+</LinearLayout>

@@ -2,9 +2,13 @@ package com.example.project;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -13,9 +17,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.project.models.Restaurant;
+import com.example.project.models.SearchResponse;
+import com.example.project.network.ApiClient;
 import com.google.android.material.card.MaterialCardView;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
+
+    private ApiClient apiClient;
+    private Handler mainHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,16 +39,22 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        // Initialize API client and handler
+        apiClient = ApiClient.getInstance(this);
+        mainHandler = new Handler(Looper.getMainLooper());
+
         setupClickListeners();
+        loadTrendingRestaurants();
     }
 
     private void setupClickListeners() {
-        // Menu icon click
+        // Menu icon click - Navigate to LoginActivity for testing
         ImageView menuIcon = findViewById(R.id.menu_icon);
         if (menuIcon != null) {
-            menuIcon.setOnClickListener(v ->
-                Toast.makeText(this, "Menu clicked", Toast.LENGTH_SHORT).show()
-            );
+            menuIcon.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            });
         }
 
         // Search bar click - navigate to SearchActivity
@@ -147,6 +164,132 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("restaurant_image", R.drawable.restaurant_noodle);
                 startActivity(intent);
             });
+        }
+    }
+
+    /**
+     * Load trending restaurants from the API and update the UI
+     */
+    private void loadTrendingRestaurants() {
+        Log.d(TAG, " Loading trending restaurants");
+
+        apiClient.getTrendingRestaurants(new ApiClient.SearchCallback() {
+            @Override
+            public void onSuccess(SearchResponse response) {
+                mainHandler.post(() -> handleTrendingSuccess(response));
+            }
+
+            @Override
+            public void onError(String error) {
+                mainHandler.post(() -> handleTrendingError(error));
+            }
+        });
+    }
+
+    /**
+     * Handle successful trending restaurants response
+     */
+    private void handleTrendingSuccess(SearchResponse response) {
+        Log.d(TAG, "Trending restaurants loaded successfully: " + response.getCount() + " restaurants");
+
+        if (response.getRestaurants() != null && !response.getRestaurants().isEmpty()) {
+            updateTrendingSection(response.getRestaurants());
+        } else {
+            Log.w(TAG, " No trending restaurants found");
+            // Keep the existing hardcoded restaurants as fallback
+        }
+    }
+
+    /**
+     * Handle trending restaurants error
+     */
+    private void handleTrendingError(String error) {
+        Log.e(TAG, " Failed to load trending restaurants: " + error);
+        Toast.makeText(this, "Unable to load trending restaurants", Toast.LENGTH_SHORT).show();
+        // Keep the existing hardcoded restaurants as fallback
+    }
+
+    /**
+     * Update the trending section with API data
+     */
+    private void updateTrendingSection(java.util.List<Restaurant> restaurants) {
+        // Update section title
+        TextView sectionTitle = findViewById(R.id.favorites_section_title);
+        if (sectionTitle != null) {
+            sectionTitle.setText("Trending");
+        }
+
+        // Update restaurant data (limit to first 3 for current layout)
+        int maxRestaurants = Math.min(restaurants.size(), 3);
+
+        for (int i = 0; i < maxRestaurants; i++) {
+            Restaurant restaurant = restaurants.get(i);
+            updateRestaurantCard(i, restaurant);
+        }
+    }
+
+    /**
+     * Update individual restaurant card with API data
+     */
+    private void updateRestaurantCard(int index, Restaurant restaurant) {
+        View restaurantCard = null;
+
+        // Get the appropriate restaurant card view
+        switch (index) {
+            case 0:
+                restaurantCard = findViewById(R.id.italian_restaurant);
+                break;
+            case 1:
+                restaurantCard = findViewById(R.id.sushi_restaurant);
+                break;
+            case 2:
+                restaurantCard = findViewById(R.id.burger_restaurant);
+                break;
+        }
+
+        if (restaurantCard != null) {
+            // Update restaurant name
+            TextView nameView = restaurantCard.findViewById(R.id.restaurant_name);
+            if (nameView != null) {
+                nameView.setText(restaurant.getName());
+            }
+
+            // Update rating if available
+            TextView ratingView = restaurantCard.findViewById(R.id.restaurant_rating);
+            if (ratingView != null) {
+                ratingView.setText(String.format("%.1f ★", restaurant.getRating()));
+            }
+
+            // Update restaurant image
+            ImageView imageView = restaurantCard.findViewById(R.id.restaurant_image);
+            if (imageView != null) {
+                imageView.setImageResource(getDefaultRestaurantImage(index));
+            }
+
+            // Update click listener to use API data
+            restaurantCard.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, RestaurantDetailActivity.class);
+                intent.putExtra("restaurant_name", restaurant.getName());
+                intent.putExtra("restaurant_description", restaurant.getDescription());
+                intent.putExtra("restaurant_info", restaurant.getAddress() + " | " + restaurant.getCuisineType());
+                intent.putExtra("restaurant_hours", restaurant.getTodayHours());
+                intent.putExtra("restaurant_rating", String.format("%.1f", restaurant.getRating()));
+                intent.putExtra("restaurant_phone", "Phone: " + restaurant.getPhone());
+                intent.putExtra("restaurant_image", getDefaultRestaurantImage(index));
+                startActivity(intent);
+            });
+        }
+    }
+
+    /**
+     * Get default restaurant image based on index
+     */
+    private int getDefaultRestaurantImage(int index) {
+        switch (index) {
+            case 0: return R.drawable.restaurant_italian;
+            case 1: return R.drawable.restaurant_sushi;
+            case 2: return R.drawable.restaurant_burger;
+            default: return R.drawable.restaurant_italian;
         }
     }
 }

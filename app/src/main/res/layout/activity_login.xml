@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_primary"
+    tools:context=".LoginActivity">
+
+    <!-- Main Content Container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Top Section with Illustration/Logo -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="32dp">
+
+            <!-- App Logo/Illustration -->
+            <ImageView
+                android:id="@+id/login_illustration"
+                android:layout_width="280dp"
+                android:layout_height="280dp"
+                android:src="@drawable/restaurant_italian"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="24dp"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Medium" />
+
+            <!-- Welcome Text -->
+            <TextView
+                android:id="@+id/welcome_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome to Foodie"
+                android:textAppearance="@style/TextAppearance.Foodie.SectionTitle"
+                android:layout_marginBottom="8dp"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/welcome_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Discover amazing restaurants near you"
+                android:textAppearance="@style/TextAppearance.Foodie.SearchReviews"
+                android:textAlignment="center"
+                android:layout_marginBottom="32dp" />
+
+        </LinearLayout>
+
+        <!-- Bottom Section with Login Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:paddingBottom="32dp">
+
+            <!-- Google Login Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/google_login_button"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Continue with Google"
+                android:textAppearance="@style/TextAppearance.Foodie.ActionButton"
+                android:textColor="@color/text_primary"
+                android:backgroundTint="@color/background_secondary"
+                app:cornerRadius="24dp"
+                app:strokeWidth="0dp"
+                android:layout_marginBottom="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:icon="@drawable/ic_google"
+                app:iconGravity="textStart"
+                app:iconPadding="12dp"
+                app:iconTint="@null"
+                style="@style/Widget.Material3.Button.UnelevatedButton" />
+
+            <!-- Guest Login Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/guest_login_button"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Login as Guest"
+                android:textAppearance="@style/TextAppearance.Foodie.ActionButton"
+                android:textColor="@color/text_primary"
+                android:backgroundTint="@color/background_secondary"
+                app:cornerRadius="24dp"
+                app:strokeWidth="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:icon="@drawable/ic_profile"
+                app:iconGravity="textStart"
+                app:iconPadding="12dp"
+                app:iconTint="@color/text_secondary"
+                style="@style/Widget.Material3.Button.UnelevatedButton" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -114,117 +114,6 @@
 
             </LinearLayout>
 
-            <!-- Filter Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="12dp"
-                android:gravity="center">
-
-                <!-- Price Filter -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/price_filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_marginEnd="12dp"
-                    style="@style/Widget.Foodie.SearchCard"
-                    app:cardCornerRadius="16dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:paddingHorizontal="16dp"
-                        android:paddingEnd="8dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Price"
-                            android:textAppearance="@style/TextAppearance.Foodie.FilterLabel"
-                            android:layout_marginEnd="8dp" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_filter_price"
-                            app:tint="@color/text_primary" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Rating Filter -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/rating_filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_marginEnd="12dp"
-                    style="@style/Widget.Foodie.SearchCard"
-                    app:cardCornerRadius="16dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:paddingHorizontal="16dp"
-                        android:paddingEnd="8dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Rating"
-                            android:textAppearance="@style/TextAppearance.Foodie.FilterLabel"
-                            android:layout_marginEnd="8dp" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_filter_rating"
-                            app:tint="@color/text_primary" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Distance Filter -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/distance_filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    style="@style/Widget.Foodie.SearchCard"
-                    app:cardCornerRadius="16dp">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:paddingHorizontal="16dp"
-                        android:paddingEnd="8dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Distance"
-                            android:textAppearance="@style/TextAppearance.Foodie.FilterLabel"
-                            android:layout_marginEnd="8dp" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_filter_distance"
-                            app:tint="@color/text_primary" />
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-            </LinearLayout>
 
             <!-- Search Results Section -->
             <LinearLayout
@@ -232,212 +121,79 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Bella Trattoria -->
+                <!-- Loading State -->
                 <LinearLayout
+                    android:id="@+id/loading_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:paddingHorizontal="16dp"
-                    android:gravity="center_vertical">
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="32dp"
+                    android:visibility="gone">
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginEnd="16dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/search_bella_trattoria"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Medium" />
+                    <ProgressBar
+                        android:id="@+id/loading_progress"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginBottom="16dp"
+                        android:indeterminateTint="@color/fab_red" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/loading_message"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Bella Trattoria"
-                            android:textAppearance="@style/TextAppearance.Foodie.RestaurantName"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4.5 (1200+ reviews)"
-                            android:textAppearance="@style/TextAppearance.Foodie.SearchReviews"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Italian · 0.5 mi"
-                            android:textAppearance="@style/TextAppearance.Foodie.SearchReviews" />
-
-                    </LinearLayout>
+                        android:text="Please wait while we search for restaurants..."
+                        android:textAppearance="@style/TextAppearance.Foodie.SearchReviews"
+                        android:textColor="@color/text_secondary"
+                        android:gravity="center" />
 
                 </LinearLayout>
 
-                <!-- Pasta Paradise -->
-                <LinearLayout
+                <!-- Search Results Header -->
+                <TextView
+                    android:id="@+id/search_results_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Search Results"
+                    android:textAppearance="@style/TextAppearance.Foodie.RestaurantName"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone" />
+
+                <!-- RecyclerView for Dynamic Search Results -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/search_results_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:paddingHorizontal="16dp"
-                    android:gravity="center_vertical">
+                    android:nestedScrollingEnabled="false"
+                    android:visibility="gone" />
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginEnd="16dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/search_pasta_paradise"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Medium" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Pasta Paradise"
-                            android:textAppearance="@style/TextAppearance.Foodie.RestaurantName"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4.2 (800+ reviews)"
-                            android:textAppearance="@style/TextAppearance.Foodie.SearchReviews"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Italian · 1.2 mi"
-                            android:textAppearance="@style/TextAppearance.Foodie.SearchReviews" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- Roma Ristorante -->
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <!-- No Results Message -->
+                <TextView
+                    android:id="@+id/no_results_message"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:paddingHorizontal="16dp"
-                    android:gravity="center_vertical">
+                    android:text="No restaurants found. Try a different search term."
+                    android:textAppearance="@style/TextAppearance.Foodie.SearchReviews"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="32dp"
+                    android:visibility="gone" />
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginEnd="16dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/search_roma_ristorante"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Medium" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Roma Ristorante"
-                            android:textAppearance="@style/TextAppearance.Foodie.RestaurantName"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4.0 (500+ reviews)"
-                            android:textAppearance="@style/TextAppearance.Foodie.SearchReviews"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Italian · 0.8 mi"
-                            android:textAppearance="@style/TextAppearance.Foodie.SearchReviews" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- Tuscany Bistro -->
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <!-- Default Message (shown when no search performed) -->
+                <TextView
+                    android:id="@+id/default_message"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:paddingHorizontal="16dp"
-                    android:gravity="center_vertical">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginEnd="16dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/search_tuscany_bistro"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Medium" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tuscany Bistro"
-                            android:textAppearance="@style/TextAppearance.Foodie.RestaurantName"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4.3 (1000+ reviews)"
-                            android:textAppearance="@style/TextAppearance.Foodie.SearchReviews"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Italian · 1.5 mi"
-                            android:textAppearance="@style/TextAppearance.Foodie.SearchReviews" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
+                    android:text="Type in the search bar above to find restaurants"
+                    android:textAppearance="@style/TextAppearance.Foodie.SearchReviews"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="32dp"
+                    android:visibility="visible" />
             </LinearLayout>
-
         </LinearLayout>
-
     </androidx.core.widget.NestedScrollView>
-
-    <!-- Floating Action Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="20dp"
-        android:src="@drawable/ic_floating_action"
-        android:contentDescription="Additional actions"
-        app:backgroundTint="@color/fab_red"
-        app:tint="@color/background_primary"
-        app:fabSize="normal" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

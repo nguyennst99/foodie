@@ -1,0 +1,13 @@
+# Foodie App Configuration Template
+# Copy this file to config.properties and update with your settings
+
+# API Configuration
+api.base.url=http://YOUR_SERVER_IP:3000
+api.timeout.seconds=30
+
+# Development Settings
+development.mode=true
+debug.logging=true
+
+# Network Security
+allowed.domains=localhost,10.0.2.2,YOUR_SERVER_IP

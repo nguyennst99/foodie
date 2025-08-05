@@ -97,7 +97,7 @@
 
             </LinearLayout>
 
-            <!-- Favorites Section -->
+            <!-- Trending Section -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,106 +107,33 @@
                 android:paddingBottom="12dp">
 
                 <TextView
+                    android:id="@+id/favorites_section_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Favorites"
+                    android:text="Trending"
                     android:textAppearance="@style/TextAppearance.Foodie.SectionTitle"
                     android:layout_marginBottom="12dp" />
 
-                <!-- Favorites List -->
+                <!-- Trending List -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <!-- The Italian Place -->
+                    <!-- Trending Restaurant 1 -->
                     <include
                         layout="@layout/restaurant_card_item"
                         android:id="@+id/italian_restaurant" />
 
-                    <!-- Sushi Central -->
-                    <LinearLayout
-                        android:id="@+id/sushi_restaurant"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="8dp"
-                        android:gravity="center_vertical"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
+                    <!-- Trending Restaurant 2 -->
+                    <include
+                        layout="@layout/restaurant_card_item"
+                        android:id="@+id/sushi_restaurant" />
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:layout_marginEnd="16dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/restaurant_sushi"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Medium" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Sushi Central"
-                                android:textAppearance="@style/TextAppearance.Foodie.RestaurantName" />
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4.2 ★"
-                            android:textAppearance="@style/TextAppearance.Foodie.Rating" />
-
-                    </LinearLayout>
-
-                    <!-- Burger Haven -->
-                    <LinearLayout
-                        android:id="@+id/burger_restaurant"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="8dp"
-                        android:gravity="center_vertical"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:layout_marginEnd="16dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/restaurant_burger"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Medium" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Burger Haven"
-                                android:textAppearance="@style/TextAppearance.Foodie.RestaurantName" />
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4.8 ★"
-                            android:textAppearance="@style/TextAppearance.Foodie.Rating" />
-
-                    </LinearLayout>
+                    <!-- Trending Restaurant 3 -->
+                    <include
+                        layout="@layout/restaurant_card_item"
+                        android:id="@+id/burger_restaurant" />
 
                 </LinearLayout>
 

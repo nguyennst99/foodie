@@ -57,251 +57,30 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- Favorites Restaurant List -->
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="16dp">
 
-                <!-- Bella Trattoria -->
-                <LinearLayout
-                    android:id="@+id/bella_trattoria_card"
+                <!-- RecyclerView for favorites -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/favorites_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:paddingHorizontal="16dp"
-                    android:gravity="center_vertical"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true">
+                    android:visibility="gone" />
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginEnd="16dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/restaurant_bella_trattoria"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Medium" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Bella Trattoria"
-                            android:textAppearance="@style/TextAppearance.Foodie.RestaurantName"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Authentic Italian cuisine with a modern twist."
-                            android:textAppearance="@style/TextAppearance.Foodie.FavoriteDescription"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Italian · 4.5"
-                            android:textAppearance="@style/TextAppearance.Foodie.FavoriteDetails" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- Sakura Sushi -->
-                <LinearLayout
+                <!-- Empty state -->
+                <TextView
+                    android:id="@+id/empty_state_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:paddingHorizontal="16dp"
-                    android:gravity="center_vertical">
+                    android:text="No favorites yet. Start exploring restaurants!"
+                    android:textAppearance="@style/TextAppearance.Foodie.FavoriteDescription"
+                    android:textAlignment="center"
+                    android:padding="32dp"
+                    android:visibility="visible" />
 
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginEnd="16dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/restaurant_sakura_sushi"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Medium" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Sakura Sushi"
-                            android:textAppearance="@style/TextAppearance.Foodie.RestaurantName"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Fresh sushi and sashimi in a sleek setting."
-                            android:textAppearance="@style/TextAppearance.Foodie.FavoriteDescription"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Japanese · 4.7"
-                            android:textAppearance="@style/TextAppearance.Foodie.FavoriteDetails" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- El Taco Loco -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:paddingHorizontal="16dp"
-                    android:gravity="center_vertical">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginEnd="16dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/restaurant_el_taco_loco"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Medium" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="El Taco Loco"
-                            android:textAppearance="@style/TextAppearance.Foodie.RestaurantName"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Vibrant Mexican dishes and cocktails."
-                            android:textAppearance="@style/TextAppearance.Foodie.FavoriteDescription"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Mexican · 4.2"
-                            android:textAppearance="@style/TextAppearance.Foodie.FavoriteDetails" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- Le Petit Bistro -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:paddingHorizontal="16dp"
-                    android:gravity="center_vertical">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginEnd="16dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/restaurant_le_petit_bistro"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Medium" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Le Petit Bistro"
-                            android:textAppearance="@style/TextAppearance.Foodie.RestaurantName"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Classic French bistro with a cozy ambiance."
-                            android:textAppearance="@style/TextAppearance.Foodie.FavoriteDescription"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="French · 4.6"
-                            android:textAppearance="@style/TextAppearance.Foodie.FavoriteDetails" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- Spice Route -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="12dp"
-                    android:paddingHorizontal="16dp"
-                    android:gravity="center_vertical">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginEnd="16dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/restaurant_spice_route"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Material3.Corner.Medium" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Spice Route"
-                            android:textAppearance="@style/TextAppearance.Foodie.RestaurantName"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Spicy curries and tandoori specialties."
-                            android:textAppearance="@style/TextAppearance.Foodie.FavoriteDescription"
-                            android:layout_marginBottom="2dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Indian · 4.4"
-                            android:textAppearance="@style/TextAppearance.Foodie.FavoriteDetails" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
+            </FrameLayout>
 
         </LinearLayout>
 

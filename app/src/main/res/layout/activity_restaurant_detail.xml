@@ -127,6 +127,39 @@
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="4dp">
 
+                <!-- Rating Section -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/restaurant_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4.5"
+                        android:textAppearance="@style/TextAppearance.Foodie.RestaurantDetails"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="4dp" />
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_star_filled"
+                        android:layout_marginEnd="8dp"
+                        app:tint="@color/star_yellow" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rating"
+                        android:textAppearance="@style/TextAppearance.Foodie.RestaurantDetails"
+                        android:textColor="@color/text_secondary" />
+
+                </LinearLayout>
+
                 <!-- Address and Info -->
                 <TextView
                     android:id="@+id/restaurant_info"
@@ -134,7 +167,17 @@
                     android:layout_height="wrap_content"
                     android:text="123 Main Street, Anytown | Italian | $$"
                     android:textAppearance="@style/TextAppearance.Foodie.RestaurantDetails"
-                    android:layout_marginBottom="12dp" />
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Phone Number -->
+                <TextView
+                    android:id="@+id/restaurant_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Phone: (555) 123-4567"
+                    android:textAppearance="@style/TextAppearance.Foodie.RestaurantDetails"
+                    android:layout_marginBottom="8dp"
+                    android:autoLink="phone" />
 
                 <!-- Hours -->
                 <TextView
@@ -174,7 +217,7 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:text="Favorite"
+                    android:text="Add to Favorite"
                     android:textAppearance="@style/TextAppearance.Foodie.ActionButton"
                     android:textColor="@color/background_primary"
                     app:backgroundTint="@color/fab_red"

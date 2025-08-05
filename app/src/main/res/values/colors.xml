@@ -17,6 +17,7 @@
     <color name="progress_bar_background">#E5DBDB</color>
     <color name="progress_bar_fill">#171212</color>
     <color name="button_gray">#F5F0F0</color>
+    <color name="star_yellow">#FFD700</color>
 
     <!-- Material Design colors for compatibility -->
     <color name="colorPrimary">#171212</color>
