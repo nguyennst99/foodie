@@ -48,6 +48,10 @@ public class SearchActivity extends AppCompatActivity {
     private ApiClient apiClient;
     private Handler mainHandler;
     private RestaurantSearchAdapter searchAdapter;
+    
+    // Search state management
+    private boolean isSearching = false;
+    private String originalHint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +78,9 @@ public class SearchActivity extends AppCompatActivity {
     private void initializeViews() {
         searchEditText = findViewById(R.id.search_edit_text);
         clearSearch = findViewById(R.id.clear_search);
+
+        // Store original hint for later use
+        originalHint = searchEditText.getHint() != null ? searchEditText.getHint().toString() : "Search restaurants or cuisines";
 
         // Initialize search results UI components
         searchResultsRecycler = findViewById(R.id.search_results_recycler);
@@ -124,8 +131,14 @@ public class SearchActivity extends AppCompatActivity {
         // Clear search button
         if (clearSearch != null) {
             clearSearch.setOnClickListener(v -> {
+                // Don't allow clearing while searching
+                if (isSearching) {
+                    return;
+                }
+                
                 searchEditText.setText("");
                 searchEditText.requestFocus();
+                showDefaultState();
             });
         }
     }
@@ -148,8 +161,14 @@ public class SearchActivity extends AppCompatActivity {
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    // Perform search when text changes
-                    performSearch(s.toString());
+                    // If search field is empty, show default state immediately
+                    if (s.toString().trim().isEmpty()) {
+                        showDefaultState();
+                        return;
+                    }
+                    
+                    // Don't auto-search - wait for user to press Enter
+                    // Search will only be triggered by pressing Enter/Search key
                 }
             });
 
@@ -157,7 +176,8 @@ public class SearchActivity extends AppCompatActivity {
             searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH && !isSearching) {
+                        // Perform search when user presses Enter
                         performSearch(v.getText().toString());
                         return true;
                     }
@@ -177,7 +197,16 @@ public class SearchActivity extends AppCompatActivity {
             return;
         }
 
+        // Don't start new search if already searching
+        if (isSearching) {
+            Log.d(TAG, "Search already in progress, ignoring new search request");
+            return;
+        }
+
         Log.d(TAG, "Performing search for: " + query);
+
+        // Disable search input
+        disableSearchInput();
 
         // Show loading state
         showLoadingState();
@@ -254,8 +283,9 @@ public class SearchActivity extends AppCompatActivity {
     private void handleSearchSuccess(SearchResponse response) {
         Log.d(TAG, "Search successful: " + response.toString());
 
-        // Hide loading state
+        // Hide loading state and re-enable search input
         hideLoadingState();
+        enableSearchInput();
 
         if (response.getRestaurants() != null && !response.getRestaurants().isEmpty()) {
             // Log detailed information about each restaurant for testing
@@ -334,8 +364,9 @@ public class SearchActivity extends AppCompatActivity {
     private void handleSearchError(String error) {
         Log.e(TAG, " Search failed: " + error);
 
-        // Hide loading state
+        // Hide loading state and re-enable search input
         hideLoadingState();
+        enableSearchInput();
 
         showNoResults();
         Toast.makeText(this, "Search failed: " + error, Toast.LENGTH_LONG).show();
@@ -403,5 +434,34 @@ public class SearchActivity extends AppCompatActivity {
      */
     private void hideLoadingState() {
         loadingContainer.setVisibility(View.GONE);
+    }
+    
+    /**
+     * Disable search input while processing
+     */
+    private void disableSearchInput() {
+        isSearching = true;
+        searchEditText.setEnabled(false);
+        searchEditText.setHint("Searching...");
+        clearSearch.setEnabled(false);
+        clearSearch.setAlpha(0.5f); // Make clear button appear disabled
+    }
+    
+    /**
+     * Re-enable search input after processing
+     */
+    private void enableSearchInput() {
+        isSearching = false;
+        searchEditText.setEnabled(true);
+        searchEditText.setHint(originalHint);
+        clearSearch.setEnabled(true);
+        clearSearch.setAlpha(1.0f); // Restore clear button appearance
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Reset search state
+        isSearching = false;
     }
 }
