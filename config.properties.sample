@@ -11,3 +11,6 @@ debug.logging=true
 
 # Network Security
 allowed.domains=localhost,10.0.2.2,YOUR_SERVER_IP
+
+# Google Maps Configuration
+google.maps.api.key=YOUR_GOOGLE_MAPS_API_KEY_HERE

@@ -114,6 +114,13 @@ public class FavoritesActivity extends AppCompatActivity {
             intent.putExtra("restaurant_rating", String.format("%.1f", restaurant.getRating()));
             intent.putExtra("restaurant_phone", "Phone: " + restaurant.getPhone());
             intent.putExtra("restaurant_image", R.drawable.restaurant_bella_trattoria); // Default image
+
+            // Pass coordinates if available
+            if (restaurant.hasLocation()) {
+                intent.putExtra("restaurant_latitude", restaurant.getLatitude());
+                intent.putExtra("restaurant_longitude", restaurant.getLongitude());
+                Log.d(TAG, "Passing coordinates for " + restaurant.getName() + ": " + restaurant.getLocationString());
+            }
             startActivity(intent);
         });
 

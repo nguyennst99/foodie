@@ -76,6 +76,10 @@ public class ConfigManager {
     public boolean isDebugLoggingEnabled() {
         return Boolean.parseBoolean(properties.getProperty("debug.logging", "true"));
     }
+
+    public String getGoogleMapsApiKey() {
+        return properties.getProperty("google.maps.api.key", "");
+    }
     
     public void logConfigurationStatus() {
         Log.d(TAG, "=== Configuration Status ===");
@@ -83,6 +87,7 @@ public class ConfigManager {
         Log.d(TAG, "API Timeout: " + getApiTimeoutSeconds() + "s");
         Log.d(TAG, "Development Mode: " + isDevelopmentMode());
         Log.d(TAG, "Debug Logging: " + isDebugLoggingEnabled());
+        Log.d(TAG, "Google Maps API Key: " + (getGoogleMapsApiKey().isEmpty() ? "Not configured" : "Configured"));
         Log.d(TAG, "============================");
     }
 }

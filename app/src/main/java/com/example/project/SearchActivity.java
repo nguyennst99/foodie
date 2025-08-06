@@ -49,9 +49,10 @@ public class SearchActivity extends AppCompatActivity {
     private Handler mainHandler;
     private RestaurantSearchAdapter searchAdapter;
     
-    // Search state management
-    private boolean isSearching = false;
-    private String originalHint;
+    // Search management
+    private Handler searchHandler;
+    private Runnable searchRunnable;
+    private boolean isSearchInProgress = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,19 +69,21 @@ public class SearchActivity extends AppCompatActivity {
         setupClickListeners();
         setupSearchFunctionality();
         setupRestaurantClickListeners();
+        
+        // Initialize search button state
+        updateSearchButtonState();
 
         // Initialize API client and test connectivity
         apiClient = ApiClient.getInstance(this);
         mainHandler = new Handler(Looper.getMainLooper());
+        searchHandler = new Handler(Looper.getMainLooper());
         testBackendConnectivity();
     }
 
     private void initializeViews() {
         searchEditText = findViewById(R.id.search_edit_text);
         clearSearch = findViewById(R.id.clear_search);
-
-        // Store original hint for later use
-        originalHint = searchEditText.getHint() != null ? searchEditText.getHint().toString() : "Search restaurants or cuisines";
+        ImageView searchButton = findViewById(R.id.search_button);
 
         // Initialize search results UI components
         searchResultsRecycler = findViewById(R.id.search_results_recycler);
@@ -105,6 +108,13 @@ public class SearchActivity extends AppCompatActivity {
                     intent.putExtra("restaurant_info", restaurant.getAddress() + " | " + restaurant.getCuisineType());
                     intent.putExtra("restaurant_hours", restaurant.getTodayHours());
                     intent.putExtra("restaurant_description", restaurant.getDescription());
+
+                    // Pass coordinates if available
+                    if (restaurant.hasLocation()) {
+                        intent.putExtra("restaurant_latitude", restaurant.getLatitude());
+                        intent.putExtra("restaurant_longitude", restaurant.getLongitude());
+                        Log.d(TAG, "Passing coordinates for " + restaurant.getName() + ": " + restaurant.getLocationString());
+                    }
                     intent.putExtra("restaurant_phone", "Phone: " + restaurant.getPhone());
                     intent.putExtra("restaurant_image", R.drawable.search_bella_trattoria); // Default image
                     startActivity(intent);
@@ -128,14 +138,36 @@ public class SearchActivity extends AppCompatActivity {
             });
         }
 
+        // Search button click
+        ImageView searchButton = findViewById(R.id.search_button);
+        if (searchButton != null) {
+            searchButton.setOnClickListener(v -> {
+                String query = searchEditText.getText().toString().trim();
+                if (!query.isEmpty()) {
+                    // Check if search is already in progress
+                    if (isSearchInProgress) {
+                        Toast.makeText(this, "Search in progress, please wait...", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    
+                    // Cancel any pending search
+                    if (searchRunnable != null) {
+                        searchHandler.removeCallbacks(searchRunnable);
+                    }
+                    performSearch(query);
+                } else {
+                    Toast.makeText(this, "Please enter a search term", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
         // Clear search button
         if (clearSearch != null) {
             clearSearch.setOnClickListener(v -> {
-                // Don't allow clearing while searching
-                if (isSearching) {
-                    return;
+                // Cancel any pending search
+                if (searchRunnable != null) {
+                    searchHandler.removeCallbacks(searchRunnable);
                 }
-                
                 searchEditText.setText("");
                 searchEditText.requestFocus();
                 showDefaultState();
@@ -161,14 +193,19 @@ public class SearchActivity extends AppCompatActivity {
 
                 @Override
                 public void afterTextChanged(Editable s) {
+                    // Cancel any pending search when text changes
+                    if (searchRunnable != null) {
+                        searchHandler.removeCallbacks(searchRunnable);
+                    }
+                    
                     // If search field is empty, show default state immediately
                     if (s.toString().trim().isEmpty()) {
                         showDefaultState();
                         return;
                     }
                     
-                    // Don't auto-search - wait for user to press Enter
-                    // Search will only be triggered by pressing Enter/Search key
+                    // Don't perform automatic search - wait for user to press Enter or search button
+                    // This prevents excessive API calls while user is typing
                 }
             });
 
@@ -176,9 +213,25 @@ public class SearchActivity extends AppCompatActivity {
             searchEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_SEARCH && !isSearching) {
-                        // Perform search when user presses Enter
-                        performSearch(v.getText().toString());
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        String query = v.getText().toString().trim();
+                        
+                        // Check if search is already in progress
+                        if (isSearchInProgress) {
+                            Toast.makeText(SearchActivity.this, "Search in progress, please wait...", Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                        
+                        if (!query.isEmpty()) {
+                            // Cancel any pending delayed search
+                            if (searchRunnable != null) {
+                                searchHandler.removeCallbacks(searchRunnable);
+                            }
+                            // Perform immediate search
+                            performSearch(query);
+                        } else {
+                            Toast.makeText(SearchActivity.this, "Please enter a search term", Toast.LENGTH_SHORT).show();
+                        }
                         return true;
                     }
                     return false;
@@ -197,16 +250,19 @@ public class SearchActivity extends AppCompatActivity {
             return;
         }
 
-        // Don't start new search if already searching
-        if (isSearching) {
-            Log.d(TAG, "Search already in progress, ignoring new search request");
+        // Check if search is already in progress
+        if (isSearchInProgress) {
+            Log.d(TAG, "Search already in progress, ignoring new request");
+            Toast.makeText(this, "Search in progress, please wait...", Toast.LENGTH_SHORT).show();
             return;
         }
 
         Log.d(TAG, "Performing search for: " + query);
+        Toast.makeText(this, "Searching for: " + query, Toast.LENGTH_SHORT).show();
 
-        // Disable search input
-        disableSearchInput();
+        // Set search state to in progress
+        isSearchInProgress = true;
+        updateSearchButtonState();
 
         // Show loading state
         showLoadingState();
@@ -283,9 +339,12 @@ public class SearchActivity extends AppCompatActivity {
     private void handleSearchSuccess(SearchResponse response) {
         Log.d(TAG, "Search successful: " + response.toString());
 
-        // Hide loading state and re-enable search input
+        // Reset search state
+        isSearchInProgress = false;
+        updateSearchButtonState();
+
+        // Hide loading state
         hideLoadingState();
-        enableSearchInput();
 
         if (response.getRestaurants() != null && !response.getRestaurants().isEmpty()) {
             // Log detailed information about each restaurant for testing
@@ -364,12 +423,33 @@ public class SearchActivity extends AppCompatActivity {
     private void handleSearchError(String error) {
         Log.e(TAG, " Search failed: " + error);
 
-        // Hide loading state and re-enable search input
+        // Reset search state
+        isSearchInProgress = false;
+        updateSearchButtonState();
+
+        // Hide loading state
         hideLoadingState();
-        enableSearchInput();
 
         showNoResults();
         Toast.makeText(this, "Search failed: " + error, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Update search button visual state based on search progress
+     */
+    private void updateSearchButtonState() {
+        ImageView searchButton = findViewById(R.id.search_button);
+        if (searchButton != null) {
+            if (isSearchInProgress) {
+                // Disable visual state - make it look inactive
+                searchButton.setAlpha(0.5f);
+                searchButton.setEnabled(false);
+            } else {
+                // Enable visual state - restore normal appearance
+                searchButton.setAlpha(1.0f);
+                searchButton.setEnabled(true);
+            }
+        }
     }
 
     /**
@@ -436,32 +516,14 @@ public class SearchActivity extends AppCompatActivity {
         loadingContainer.setVisibility(View.GONE);
     }
     
-    /**
-     * Disable search input while processing
-     */
-    private void disableSearchInput() {
-        isSearching = true;
-        searchEditText.setEnabled(false);
-        searchEditText.setHint("Searching...");
-        clearSearch.setEnabled(false);
-        clearSearch.setAlpha(0.5f); // Make clear button appear disabled
-    }
-    
-    /**
-     * Re-enable search input after processing
-     */
-    private void enableSearchInput() {
-        isSearching = false;
-        searchEditText.setEnabled(true);
-        searchEditText.setHint(originalHint);
-        clearSearch.setEnabled(true);
-        clearSearch.setAlpha(1.0f); // Restore clear button appearance
-    }
-    
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        // Cancel any pending search to prevent memory leaks
+        if (searchRunnable != null && searchHandler != null) {
+            searchHandler.removeCallbacks(searchRunnable);
+        }
         // Reset search state
-        isSearching = false;
+        isSearchInProgress = false;
     }
 }

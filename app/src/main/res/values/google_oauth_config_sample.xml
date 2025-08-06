@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Copy this file to google_oauth_config.xml and replace with your Google OAuth Client ID -->
+    <!-- Copy this file to google_oauth_config.xml and replace with your Google OAuth Client ID and Maps API Key -->
     <string name="google_oauth_client_id">YOUR_GOOGLE_OAUTH_CLIENT_ID_HERE</string>
+    <string name="google_maps_api_key">YOUR_GOOGLE_MAPS_API_KEY_HERE</string>
 </resources>

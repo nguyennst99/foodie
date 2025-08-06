@@ -80,6 +80,16 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         String phone = intent.getStringExtra("restaurant_phone");
         int imageResource = intent.getIntExtra("restaurant_image", R.drawable.restaurant_golden_spoon);
 
+        // Get latitude and longitude if available
+        Double latitude = null;
+        Double longitude = null;
+        if (intent.hasExtra("restaurant_latitude")) {
+            latitude = intent.getDoubleExtra("restaurant_latitude", 0.0);
+        }
+        if (intent.hasExtra("restaurant_longitude")) {
+            longitude = intent.getDoubleExtra("restaurant_longitude", 0.0);
+        }
+
         // Set default values if no data is passed
         if (name == null) name = "The Golden Spoon";
         if (description == null) description = "The Golden Spoon offers a delightful Italian dining experience with a menu featuring classic pasta dishes, wood-fired pizzas, and fresh seafood. Enjoy a cozy atmosphere and attentive service.";
@@ -96,12 +106,18 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             currentRestaurant.setRating(Double.parseDouble(rating));
 
             // Extract address from info (format: "address | cuisine | price")
+            Log.d(TAG, "Raw restaurant_info: '" + info + "'");
             String[] infoParts = info.split(" \\| ");
+            Log.d(TAG, "Split into " + infoParts.length + " parts");
+
             if (infoParts.length > 0) {
-                currentRestaurant.setAddress(infoParts[0]);
+                String address = infoParts[0].trim();
+                currentRestaurant.setAddress(address);
+                Log.d(TAG, "Extracted address: '" + address + "'");
             }
             if (infoParts.length > 1) {
                 currentRestaurant.setCuisineType(infoParts[1]);
+                Log.d(TAG, "Extracted cuisine: '" + infoParts[1] + "'");
             }
 
             // Extract phone number (remove "Phone: " prefix if present)
@@ -112,6 +128,13 @@ public class RestaurantDetailActivity extends AppCompatActivity {
             java.util.Map<String, String> hoursMap = new java.util.HashMap<>();
             hoursMap.put("monday", "11:00 AM - 10:00 PM");
             currentRestaurant.setHours(hoursMap);
+
+            // Set coordinates if available
+            if (latitude != null && longitude != null) {
+                currentRestaurant.setLatitude(latitude);
+                currentRestaurant.setLongitude(longitude);
+                Log.d(TAG, "Set restaurant coordinates: " + latitude + ", " + longitude);
+            }
 
         } catch (Exception e) {
             Log.e(TAG, "Error creating Restaurant object: " + e.getMessage());
@@ -146,8 +169,7 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         // Directions button click
         if (directionsButton != null) {
             directionsButton.setOnClickListener(v -> {
-                Toast.makeText(this, "Opening directions...", Toast.LENGTH_SHORT).show();
-                // TODO: Implement directions functionality (Google Maps integration)
+                openDirectionsToRestaurant();
             });
         }
         
@@ -224,4 +246,40 @@ public class RestaurantDetailActivity extends AppCompatActivity {
         Log.e(TAG, " Failed to add restaurant to favorites: " + error);
         Toast.makeText(this, " Failed to add " + currentRestaurant.getName() + " to favorites: " + error, Toast.LENGTH_LONG).show();
     }
+
+    /**
+     * Open directions to the restaurant using Google Maps
+     */
+    private void openDirectionsToRestaurant() {
+        if (currentRestaurant == null || currentRestaurant.getAddress() == null) {
+            Toast.makeText(this, "Restaurant address not available", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "Restaurant or address is null");
+            return;
+        }
+
+        String address = currentRestaurant.getAddress().trim();
+        if (address.isEmpty()) {
+            Toast.makeText(this, "Restaurant address is empty", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "Restaurant address is empty");
+            return;
+        }
+
+        Log.d(TAG, "Opening integrated map for: '" + address + "'");
+
+        // Launch the integrated MapActivity
+        Intent mapIntent = new Intent(this, MapActivity.class);
+        mapIntent.putExtra("restaurant_name", currentRestaurant.getName());
+        mapIntent.putExtra("restaurant_address", address);
+
+        // Pass coordinates if available
+        if (currentRestaurant.hasLocation()) {
+            mapIntent.putExtra("restaurant_latitude", currentRestaurant.getLatitude());
+            mapIntent.putExtra("restaurant_longitude", currentRestaurant.getLongitude());
+            Log.d(TAG, "Passing coordinates to MapActivity: " + currentRestaurant.getLocationString());
+        }
+
+        startActivity(mapIntent);
+    }
+
+
 }

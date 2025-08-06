@@ -26,13 +26,14 @@ cp config.properties.sample config.properties
 # - allowed.domains=localhost,10.0.2.2,YOUR_SERVER_IP
 ```
 
-#### Step 2: Google OAuth Setup
+#### Step 2: Google Services Setup
 ```bash
-# Copy the sample OAuth config
+# Copy the sample Google services config
 cp app/src/main/res/values/google_oauth_config.xml.sample app/src/main/res/values/google_oauth_config.xml
 
 # Edit google_oauth_config.xml and replace:
-# YOUR_GOOGLE_OAUTH_CLIENT_ID_HERE with your actual Google OAuth Client ID
+# - YOUR_GOOGLE_OAUTH_CLIENT_ID_HERE with your actual Google OAuth Client ID
+# - YOUR_GOOGLE_MAPS_API_KEY_HERE with your actual Google Maps API Key
 ```
 
 #### Step 3: Network Security Configuration
@@ -62,6 +63,9 @@ debug.logging=true
 
 # Network Security
 allowed.domains=localhost,10.0.2.2,YOUR_SERVER_IP
+
+# Google Maps Configuration
+google.maps.api.key=YOUR_GOOGLE_MAPS_API_KEY_HERE
 ```
 
 #### Key Features:
@@ -70,12 +74,31 @@ allowed.domains=localhost,10.0.2.2,YOUR_SERVER_IP
 - ✅ **Security**: Sensitive files are excluded from version control
 - ✅ **Developer Friendly**: Sample files provided for easy setup
 
-### 4. Important Notes
+### 4. Google Cloud Console Setup
+
+#### Google Maps API Key:
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select existing project
+3. Enable the following APIs:
+   - Maps SDK for Android
+   - Directions API
+   - Geocoding API (optional)
+4. Create credentials → API Key
+5. Restrict the API key to your app's package name and SHA-1 fingerprint
+
+#### Google OAuth Client ID:
+1. In the same Google Cloud project
+2. Go to APIs & Services → Credentials
+3. Create OAuth 2.0 Client ID for Android
+4. Use your app's package name and SHA-1 fingerprint
+
+### 5. Important Notes
 
 - **Never commit sensitive files**: The `.gitignore` is configured to exclude these files
 - **Use sample files**: Always copy from `.sample` files and customize
 - **Server IP**: Update all IP addresses to match your development server
 - **Google OAuth**: Get your Client ID from Google Cloud Console
+- **Google Maps**: Get your API key from Google Cloud Console (for integrated maps functionality)
 - **Firebase**: Download `google-services.json` from your Firebase project
 
 ### 5. Troubleshooting
